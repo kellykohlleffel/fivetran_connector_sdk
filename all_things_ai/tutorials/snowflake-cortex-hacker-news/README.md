@@ -1,4 +1,4 @@
-# Hacker News + Snowflake Cortex Connector Example
+# Hacker News and Snowflake Cortex Connector Example
 
 ## Connector overview
 
@@ -61,14 +61,16 @@ The `configuration.json` file contains the parameters needed to connect to the H
 }
 ```
 
-- `max_stories` (optional): Maximum number of stories to sync per run, defaults to 50
-- `batch_size` (optional): Number of stories to process before checkpointing, defaults to 10
-- `enable_cortex` (optional): Enable or disable Cortex AI enrichment, defaults to "true"
-- `snowflake_account` (conditional): Full Snowflake account domain, required when enable_cortex is "true"
-- `snowflake_pat_token` (conditional): Snowflake Personal Access Token, required when enable_cortex is "true"
-- `cortex_model` (optional): Cortex LLM model name for inference, defaults to "mistral-large2"
-- `cortex_timeout` (optional): Timeout in seconds for Cortex API calls, defaults to 30
-- `max_enrichments` (optional): Maximum number of AI enrichments per sync for cost control, defaults to 50
+Configuration parameters:
+
+- `max_stories` (optional): Maximum number of stories to sync per run, defaults to `50`
+- `batch_size` (optional): Number of stories to process before checkpointing, defaults to `10`
+- `enable_cortex` (optional): Enable or disable Cortex AI enrichment, defaults to `true
+- `snowflake_account` (conditional): Full Snowflake account domain, required when enable_cortex is `true`
+- `snowflake_pat_token` (conditional): Snowflake personal access token, required when enable_cortex is `true`
+- `cortex_model` (optional): Cortex LLM model name for inference, defaults to `mistral-large2`
+- `cortex_timeout` (optional): Timeout in seconds for Cortex API calls, defaults to `30`
+- `max_enrichments` (optional): Maximum number of AI enrichments per sync for cost control, defaults to `50`
 
 Note: This example repository includes a `configuration.json` file checked into version control, but it contains only placeholder values and no real credentials. In your own production repositories, do not commit `configuration.json` files containing real secrets or environment-specific configuration; instead, use environment variables or a secrets manager to store sensitive values.
 
@@ -80,12 +82,13 @@ This connector uses two authentication mechanisms:
 Hacker News API:
 - No authentication required
 - The API is free and open with no API key needed
-- A descriptive User-Agent header is included for polite API usage
+- A descriptive user-agent header is included for polite API usage
 
 Snowflake Cortex REST API:
-- Uses [Personal Access Token (PAT) authentication](https://docs.snowflake.com/en/user-guide/programmatic-access-tokens)
-- Generate a PAT via Snowflake UI: **Profile** > **Account Settings** > **Security** > **Personal Access Tokens**
-- The user must have the `snowflake.cortex_user` database role granted for Cortex inference access
+- Uses [personal access token (PAT) authentication](https://docs.snowflake.com/en/user-guide/programmatic-access-tokens). Generate a PAT through the Snowflake UI:
+  1. Go to **Profile** > **Account Settings**.
+  2. Select **Security** and then go to **Personal Access Tokens**.
+  3. You must grant the user the `snowflake.cortex_user` database role for Cortex inference access
 - The token is sent in the Authorization header as `Bearer <token>` on every Cortex API request
 
 
@@ -121,6 +124,8 @@ Configuration validation occurs before the sync starts in `def validate_configur
 
 
 ## Tables created
+
+The connector creates the `STORIES_ENRICHED` table.
 
 ### STORIES_ENRICHED
 
