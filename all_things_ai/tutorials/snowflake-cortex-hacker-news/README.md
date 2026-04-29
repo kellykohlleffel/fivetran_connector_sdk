@@ -88,7 +88,7 @@ Snowflake Cortex REST API:
 - Uses [personal access token (PAT) authentication](https://docs.snowflake.com/en/user-guide/programmatic-access-tokens). Generate a PAT through the Snowflake UI:
   1. Go to **Profile** > **Account Settings**.
   2. Select **Security** and then go to **Personal Access Tokens**.
-  3. You must grant the user the `snowflake.cortex_user` database role for Cortex inference access
+  3. You must grant the user the `snowflake.cortex_user` database role for Cortex inference access.
 - The token is sent in the Authorization header as `Bearer <token>` on every Cortex API request
 
 
