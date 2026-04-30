@@ -116,6 +116,10 @@ def validate_configuration(configuration: dict):
             raise ValueError("snowflake_account is required when enable_cortex is true")
         if not snowflake_pat_token:
             raise ValueError("snowflake_pat_token is required when enable_cortex is true")
+        if snowflake_account.startswith(("http://", "https://")):
+            raise ValueError(
+                "snowflake_account must be a hostname (no scheme), " f"got: {snowflake_account}"
+            )
         if not snowflake_account.endswith("snowflakecomputing.com"):
             raise ValueError("snowflake_account must end with 'snowflakecomputing.com'")
 
@@ -515,6 +519,14 @@ def process_batch(
             # Count each enrichment attempt toward the max_enrichments limit,
             # regardless of which specific enrichment fields are present.
             enriched_count += 1
+
+        # Rename HN's `by` field to `submitted_by`. `BY` is a reserved SQL
+        # keyword in DuckDB and most warehouses; emitting it as a column name
+        # produces a CREATE TABLE parser error at sync time. The HN API field
+        # itself is named `by`, but the warehouse column needs an unreserved
+        # identifier.
+        if "by" in story_data:
+            story_data["submitted_by"] = story_data.pop("by")
 
         # Flatten nested data structures for Fivetran compatibility
         flattened = flatten_dict(story_data)

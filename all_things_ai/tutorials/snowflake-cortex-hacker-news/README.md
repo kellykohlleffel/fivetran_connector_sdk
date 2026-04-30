@@ -132,7 +132,7 @@ The connector creates the `STORIES_ENRICHED` table.
 The `STORIES_ENRICHED` table consists of the following columns:
 
 - `id` (INTEGER, primary key): Unique Hacker News story ID
-- `by` (STRING): Author username who submitted the story
+- `submitted_by` (STRING): Author username who submitted the story (renamed from the Hacker News API field `by`, which collides with a reserved SQL keyword)
 - `title` (STRING): Story title text
 - `url` (STRING): URL of the linked article, if present
 - `score` (INTEGER): Story score representing net upvotes
